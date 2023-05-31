@@ -3,6 +3,7 @@
 let dataImg = [];
 let dataVideo = [];
 
+//Function: Make JSON data video
 const getDataVideo = (category) => {
   for (let i = 1; i <= 1; i++) {
     dataVideo.push({
@@ -16,6 +17,7 @@ const getDataVideo = (category) => {
   return dataVideo;
 };
 
+//Function: Make JSON data images
 const getDataImg = (category) => {
   if (category == "nature") {
     for (let i = 1; i <= 7; i++) {
@@ -41,13 +43,13 @@ const getDataImg = (category) => {
   return dataImg;
 };
 
-//Embed category navigation
+//Function: Embed category navigation
 const embedCategoryToNav = (data) => {
   const category = document.getElementById("nav-tab");
   category.innerHTML = "";
-    const uniqueCategory = ["All", ...new Set(data.map((item) => item.category))];
+  const uniqueCategory = ["All", ...new Set(data.map((item) => item.category))];
   uniqueCategory
-      .map((item, index) => {   
+    .map((item, index) => {
       category.innerHTML += `
         <button class="nav-link ${
           index == 0 ? "active" : ""
@@ -59,7 +61,7 @@ const embedCategoryToNav = (data) => {
     .join("");
 };
 
-//Merge dataImg and dataVideo
+//Function: Merge dataImg and dataVideo
 const mergeData = (dataImg, dataVideo) => {
   const data = [];
   dataImg.map((item) => {
@@ -71,7 +73,7 @@ const mergeData = (dataImg, dataVideo) => {
   return data;
 };
 
-//Embed all photos to all navigation
+//Function: Embed all photos to all navigation
 const embedAllDataToNav = (data) => {
   const container = document.getElementById("nav-tabContent");
   container.innerHTML = "";
@@ -82,14 +84,18 @@ const embedAllDataToNav = (data) => {
 
   categories.map((category, index) => {
     container.innerHTML += `
-      <div class="tab-pane fade ${index == 0 ? "show active" : ""}" id="nav-${category}" role="tabpanel" aria-labelledby="nav-${category}-tab">
+      <div class="tab-pane fade ${
+        index == 0 ? "show active" : ""
+      }" id="nav-${category}" role="tabpanel" aria-labelledby="nav-${category}-tab">
           <div class="row p-5">
               ${data
-                .filter((item) => category === "All" || item.category === category)
+                .filter(
+                  (item) => category === "All" || item.category === category
+                )
                 .map((item) => {
                   if (item.type === "image") {
                     return `
-                      <div class="col-12 col-sm-6 col-lg-4 col-xl-3  img-wrap p-3">
+                      <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-link img-wrap p-3">
                         <div class="card">
                           <img src="${item.src}" class="rounded img-each-category img-img" alt="${item.category}+${index}">
                           <span class="img-text text-capitalize">${item.name}</span>
@@ -113,35 +119,52 @@ const embedAllDataToNav = (data) => {
   });
 };
 
+//Function: Embed search result
 const embedResultToSearchResult = (data) => {
   const resSearch = document.getElementById("search-result");
   resSearch.innerHTML = "";
   resSearch.innerHTML += `
     <div class="row p-4">
-      ${data.map((item, index) => {
-        if (item.type === "image") {
-          return `
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-3  img-wrap p-3">
+      ${data
+        .map((item, index) => {
+          if (item.type === "image") {
+            return `
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-link img-wrap p-3">
               <div class="card">
                 <img src="${item.src}" class="rounded img-each-category img-img" alt="${item.category}+${index}">
                 <span class="img-text text-capitalize">${item.name}</span>
               </div>
             </div>
           `;
-        } else {
-          return `
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-3  img-wrap p-3">
+          } else {
+            return `
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-wrap p-3">
               <div class="card rounded">
                 <video src="${item.src}" class="rounded video-each-category img-img" id="video-each-category" alt="${item.category}+${index}">
               </div>
             </div>
           `;
-        }
-      }).join("")}
+          }
+        })
+        .join("")}
     </div>
   `;
 };
 
+//Function: Go to detail page when click on each image
+const goToDetailPage = (data) => {
+  const img = document.querySelectorAll(".img-link");
+
+  img.forEach((item, index) => {
+    item.addEventListener("click", () => {
+      localStorage.setItem("data", JSON.stringify(data[index]));
+      localStorage.setItem("data-full", JSON.stringify(data));
+      window.location.href = "./details.html";
+    });
+  });
+};
+
+//Function: Hovering video
 const hoveringVideo = () => {
   const video = document.getElementById("video-each-category");
   video.addEventListener("mouseover", () => {
@@ -152,22 +175,7 @@ const hoveringVideo = () => {
   });
 };
 
-const setActiveNav = () => {
-  const homepageLink = document.getElementById("nav-home");
-  const galleryLink = document.getElementById("nav-gallery");
-
-  homepageLink.addEventListener("click", () => {
-    homepageLink.classList.add("active");
-    galleryLink.classList.remove("active");
-  });
-
-  galleryLink.addEventListener("click", () => {
-    galleryLink.classList.add("active");
-    homepageLink.classList.remove("active");
-  });
-};
-
-//Search function
+//Function: Search function
 const searchSomething = () => {
   const searchInput = document.getElementById("search-input");
   const searchBtn = document.getElementById("search-button");
@@ -194,7 +202,25 @@ const searchSomething = () => {
   });
 };
 
+//Function: Set active class to navbar
+const setActiveClass = () => {
+  const navHome = document.getElementById("nav-home");
+  const navGallery = document.getElementById("nav-gallery");
 
+  //Check if url is index.html
+  if (window.location.href.includes("index.html")) {
+    navHome.classList.add("active");
+    navGallery.classList.remove("active");
+  } else if (window.location.href.includes("gallery.html")) {
+    navHome.classList.remove("active");
+    navGallery.classList.add("active");
+  } else {
+    navHome.classList.remove("active");
+    navGallery.classList.remove("active");
+  }
+};
+
+//Run all functions
 getDataImg("nature");
 getDataImg("sport");
 getDataImg("cartoon");
@@ -202,5 +228,6 @@ getDataVideo("nature");
 embedCategoryToNav(mergeData(dataImg, dataVideo));
 embedAllDataToNav(mergeData(dataImg, dataVideo));
 searchSomething();
+goToDetailPage(mergeData(dataImg, dataVideo));
 hoveringVideo();
-setActiveNav();
+setActiveClass();

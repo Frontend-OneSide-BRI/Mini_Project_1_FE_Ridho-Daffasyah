@@ -22,7 +22,7 @@
         class="navbar navbar-light bg-light d-flex justify-content-start align-items-center"
       >
         <div
-          class="container-fluid px-5 d-flex flex-column flex-sm-row flex-md-row align-items-center justify-content-center justify-content-md-between justify-content-sm-between justify-content-lg-between"
+          class="container-fluid px-5 d-flex flex-column flex-sm-row flex-md-row"
         >
           <a class="navbar-brand fs-3" href="./index.html">
             <img
@@ -34,39 +34,23 @@
             />
             Photosite
           </a>
-          <form class="d-flex form-search my-2">
-            <input
-              class="form-control me-2 search"
-              type="search"
-              id="search-input"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button
-              class="btn btn-outline-success btn-search"
-              id="search-button"
-              type="submit"
-            >
-              <span>Search</span>
-            </button>
-          </form>
           <div class="my-2">
             <ul class="nav">
               <li class="nav-item">
                 <a
-                  class="fs-5 nav-link-top"
+                  class="fs-5-md nav-link-top"
+                  id="nav-home"
                   aria-current="page"
                   href="./index.html"
-                  id="nav-home"
                   >Homepage</a
                 >
               </li>
               <li class="nav-item">
                 <a
-                  class="fs-5 nav-link-top"
+                  class="fs-5-md nav-link-top"
+                  id="nav-gallery"
                   href="./gallery.html"
                   target="_self"
-                  id="nav-gallery"
                   >Gallery</a
                 >
               </li>
@@ -75,21 +59,56 @@
         </div>
       </nav>
     </header>
-    <!-- SECTION 1 -->
-    <section id="container-content">
-      <nav
-        class="d-flex justify-content-center align-items-center nav-category"
+    <!-- SECTION 1-->
+    <section>
+      <div
+        id="carouselExampleControls"
+        class="carousel carousel-dark slide"
+        data-bs-ride="carousel"
       >
-        <div class="nav nav-tabs" id="nav-tab" role="tablist"></div>
-      </nav>
-      <div class="tab-content" id="nav-tabContent"></div>
-    </section>
-    <!-- SECTION 2 -->
-    <section id="container-search" class="px-4 pt-4 coontainer-search">
-      <div class="px-4">
-        <h1 class="search-query">Search Result: <span id="query"></span></h1>
+        <div class="carousel-inner" id="img-carousel"></div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleControls"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+        <div class="btn-explore">
+          <button
+            class="btn btn-warning btn-lg text-light fw-bold"
+            id="btn-explore"
+          >
+            Explore
+          </button>
+        </div>
       </div>
-      <div id="search-result" class="search-result-div"></div>
+    </section>
+    <!-- SECTION 2-->
+    <section class="d-flex flex-column p-5" id="bestImages">
+      <div class="best-nature-container">
+        <h1 class="title-best">Best Nature</h1>
+        <div id="best-nature"></div>
+      </div>
+      <div class="best-sport-container">
+        <h1 class="title-best">Best Sport</h1>
+        <div id="best-sport"></div>
+      </div>
+      <div class="best-cartoon-container">
+        <h1 class="title-best">Best Cartoon</h1>
+        <div id="best-cartoon"></div>
+      </div>
     </section>
     <!-- FOOTER -->
     <footer class="footer bg-light">
@@ -112,6 +131,6 @@
       integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
       crossorigin="anonymous"
     ></script>
-    <script type="text/javascript" src="../js/gallery.js"></script>
+    <script type="text/javascript" src="../js/index.js"></script>
   </body>
 </html>
