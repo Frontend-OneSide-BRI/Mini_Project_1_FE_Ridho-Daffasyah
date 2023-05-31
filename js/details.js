@@ -35,7 +35,7 @@ const embedDataRelatedToHtml = (data) => {
               .map((item, index) => {
                 if (item.type == "image") {
                   return `
-                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-wrap p-3">
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-wrap p-3 img-link">
                           <div class="card">
                             <img src="${item.src}" class="rounded img-each-category img-img" alt="${item.category}+${index}">
                             <span class="img-text text-capitalize">${item.name}</span>
@@ -67,7 +67,21 @@ const setActiveClass = () => {
   }
 };
 
+//Function: Go to detail page when click on each image
+const goToDetailPage = (data) => {
+  const img = document.querySelectorAll(".img-link");
+
+  img.forEach((item, index) => {
+    item.addEventListener("click", () => {
+      localStorage.setItem("data", JSON.stringify(data[index]));
+      localStorage.setItem("data-full", JSON.stringify(data));
+      window.location.href = "./details.html";
+    });
+  });
+};
+
 //Run all functions
 embedDataToHtml(getData());
 embedDataRelatedToHtml(getRelatedData(getData().category));
 setActiveClass();
+goToDetailPage(getRelatedData(getData().category));

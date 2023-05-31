@@ -144,7 +144,7 @@ const embedDataBest = (data, category) => {
                 .map((item, index) => {
                   if (item.type == "image") {
                     return `
-                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-wrap p-3 img-link">
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-wrap p-3" id="img-link">
                           <div class="card">
                             <img src="${item.src}" class="rounded img-each-category img-img" alt="${item.category}+${index}">
                             <span class="img-text text-capitalize">${item.name}</span>
@@ -153,7 +153,7 @@ const embedDataBest = (data, category) => {
                       `;
                   } else {
                     return `
-                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-wrap p-3">
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-wrap p-3" id="img-link">
                           <div class="card rounded">
                             <video src="${item.src}" class="rounded video-each-category img-img" id="video-each-category" alt="${item.category}+${index}">
                             <span class="video-text text-capitalize">${item.name}</span>
@@ -175,19 +175,6 @@ const goToSection = () => {
   exploreButton.addEventListener("click", function (event) {
     event.preventDefault();
     bestImagesSection.scrollIntoView({ behavior: "smooth" });
-  });
-};
-
-//Function: Go to detail page when click on each image
-const goToDetailPage = (data) => {
-  const img = document.querySelectorAll(".img-link");
-
-  img.forEach((item, index) => {
-    item.addEventListener("click", () => {
-      localStorage.setItem("data", JSON.stringify(data[index]));
-      localStorage.setItem("data-full", JSON.stringify(data));
-      window.location.href = "./details.html";
-    });
   });
 };
 
@@ -221,5 +208,4 @@ embedDataBest(mergeData(dataImg, dataVideo), "nature");
 embedDataBest(mergeData(dataImg, dataVideo), "sport");
 embedDataBest(mergeData(dataImg, dataVideo), "cartoon");
 goToSection();
-goToDetailPage(mergeData(dataImg, dataVideo));
 setActiveClass();
