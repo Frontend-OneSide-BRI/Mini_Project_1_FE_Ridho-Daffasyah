@@ -105,7 +105,7 @@ const embedDataToCarousel = (data) => {
       img.innerHTML += `
             <div class="carousel-item ${index == 0 ? "active" : ""} img" style="background-image:url(${item.src})">
             </div>
-            <div class="carousel-caption caption d-none d-md-block">
+            <div class="carousel-caption caption">
               <h1 class="fs-2">Explore and Get Your Best <span class="text-warning">Photos!</span></h1>
               <p class="fs-5">Curated images and videos by our visual experts to help you make an emotional connection with your audience.</p>
             </div>
@@ -121,7 +121,7 @@ const embedDataToCarousel = (data) => {
 };
 
 //Embed data with nature category to html
-const embedDataBestToCarousel = (data, category) => {
+const embedDataBest = (data, category) => {
   const img = document.getElementById(`best-${category}`);
   img.innerHTML = "";
   let filteredData = filterData(data, category);
@@ -132,7 +132,7 @@ const embedDataBestToCarousel = (data, category) => {
                 .map((item, index) => {
                     if (item.type == "image") {
                       return `
-                        <div class="col-3 img-wrap p-3">
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-wrap p-3">
                           <div class="card">
                             <img src="${item.src}" class="rounded img-each-category img-img" alt="${item.category}+${index}">
                             <span class="img-text text-capitalize">${item.name}</span>
@@ -141,7 +141,7 @@ const embedDataBestToCarousel = (data, category) => {
                       `;
                     } else {
                       return `
-                        <div class="col-3 img-wrap p-3">
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-wrap p-3">
                           <div class="card rounded">
                             <video src="${item.src}" class="rounded video-each-category img-img" id="video-each-category" alt="${item.category}+${index}">
                             <span class="video-text text-capitalize">${item.name}</span>
@@ -160,9 +160,9 @@ getDataImg("sport");
 getDataImg("cartoon");
 getDataVideo("nature");
 embedDataToCarousel(mergeData(dataImg, dataVideo));
-embedDataBestToCarousel(mergeData(dataImg, dataVideo), "nature");
-embedDataBestToCarousel(mergeData(dataImg, dataVideo), "sport");
-embedDataBestToCarousel(mergeData(dataImg, dataVideo), "cartoon");
+embedDataBest(mergeData(dataImg, dataVideo), "nature");
+embedDataBest(mergeData(dataImg, dataVideo), "sport");
+embedDataBest(mergeData(dataImg, dataVideo), "cartoon");
 
 const goToSection = () => {
   var exploreButton = document.getElementById("btn-explore");

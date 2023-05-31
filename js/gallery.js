@@ -89,7 +89,7 @@ const embedAllDataToNav = (data) => {
                 .map((item) => {
                   if (item.type === "image") {
                     return `
-                      <div class="col-3 img-wrap p-3">
+                      <div class="col-12 col-sm-6 col-lg-4 col-xl-3  img-wrap p-3">
                         <div class="card">
                           <img src="${item.src}" class="rounded img-each-category img-img" alt="${item.category}+${index}">
                           <span class="img-text text-capitalize">${item.name}</span>
@@ -98,7 +98,7 @@ const embedAllDataToNav = (data) => {
                     `;
                   } else {
                     return `
-                      <div class="col-3 img-wrap p-3">
+                      <div class="col-12 col-sm-6 col-lg-4 col-xl-3 img-wrap p-3">
                         <div class="card rounded">
                           <video src="${item.src}" class="rounded video-each-category img-img" id="video-each-category" alt="${item.category}+${index}">
                           <span class="video-text text-capitalize">${item.name}</span>
@@ -111,6 +111,35 @@ const embedAllDataToNav = (data) => {
       </div>
     `;
   });
+};
+
+const embedResultToSearchResult = (data) => {
+  const resSearch = document.getElementById("search-result");
+  resSearch.innerHTML = "";
+  resSearch.innerHTML += `
+    <div class="row p-4">
+      ${data.map((item, index) => {
+        if (item.type === "image") {
+          return `
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3  img-wrap p-3">
+              <div class="card">
+                <img src="${item.src}" class="rounded img-each-category img-img" alt="${item.category}+${index}">
+                <span class="img-text text-capitalize">${item.name}</span>
+              </div>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3  img-wrap p-3">
+              <div class="card rounded">
+                <video src="${item.src}" class="rounded video-each-category img-img" id="video-each-category" alt="${item.category}+${index}">
+              </div>
+            </div>
+          `;
+        }
+      }).join("")}
+    </div>
+  `;
 };
 
 const hoveringVideo = () => {
@@ -136,7 +165,35 @@ const setActiveNav = () => {
     galleryLink.classList.add("active");
     homepageLink.classList.remove("active");
   });
-}
+};
+
+//Search function
+const searchSomething = () => {
+  const searchInput = document.getElementById("search-input");
+  const searchBtn = document.getElementById("search-button");
+  const content = document.getElementById("container-content");
+  const contentSearch = document.getElementById("container-search");
+  const query = document.getElementById("query");
+
+  searchBtn.addEventListener("click", (event) => {
+    content.style.display = "none";
+    const data = mergeData(dataImg, dataVideo);
+    const searchValue = searchInput.value.toLowerCase();
+    const result = data.filter((item) => {
+      return item.name.toLowerCase().includes(searchValue);
+    });
+    console.log(result);
+    contentSearch.style.display = "block";
+
+    //No refreshing
+    event.preventDefault();
+
+    //Embed query to search result
+    query.innerHTML = `"${searchValue}"`;
+    embedResultToSearchResult(result);
+  });
+};
+
 
 getDataImg("nature");
 getDataImg("sport");
@@ -144,5 +201,6 @@ getDataImg("cartoon");
 getDataVideo("nature");
 embedCategoryToNav(mergeData(dataImg, dataVideo));
 embedAllDataToNav(mergeData(dataImg, dataVideo));
+searchSomething();
 hoveringVideo();
 setActiveNav();
